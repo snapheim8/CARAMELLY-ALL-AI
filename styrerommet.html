@@ -667,3 +667,219 @@
   });
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SOFIA — personlig assistent-widget
+     Lagt til av Claude 2026-08-24. Bruker sidens egne CSS-variabler
+     (--petrol, --brass, --card, --ink, --line, --radius, --shadow,
+     --sans) slik at den følger lys/mørk-tema automatisk.
+     Backend: n8n proxy (Sofia Personal API Proxy) -> Retell agent
+     agent_7798da7932fe9a39e575d852f9. Ingen API-nøkkel her i koden.
+══════════════════════════════════════════════════════════════ -->
+
+<div id="sofia-launcher" onclick="sofiaToggle()" title="Spør Sofia om Christian" role="button" aria-label="Åpne Sofia">
+  <div id="sofia-launcher-icon" aria-hidden="true">💬</div>
+  <div id="sofia-notif" aria-hidden="true">1</div>
+</div>
+
+<div id="sofia-panel" role="dialog" aria-label="Sofia — spør om Christian" aria-modal="true">
+  <div id="sofia-header">
+    <div id="sofia-header-left">
+      <div id="sofia-avatar" aria-hidden="true">S</div>
+      <div>
+        <div id="sofia-title">Sofia</div>
+        <div id="sofia-subtitle">Christian · All things AI</div>
+      </div>
+    </div>
+    <button id="sofia-close-btn" onclick="sofiaToggle()" aria-label="Lukk Sofia">✕</button>
+  </div>
+
+  <div id="sofia-chat-panel" role="tabpanel">
+    <div id="sofia-messages" aria-live="polite" aria-label="Samtale med Sofia">
+      <div id="sofia-typing" aria-label="Sofia skriver"><span></span><span></span><span></span></div>
+    </div>
+    <div id="sofia-input-row">
+      <input id="sofia-input" type="text" placeholder="Skriv en melding…" aria-label="Melding til Sofia"
+        onkeydown="if(event.key==='Enter') sofiaChat()" autocomplete="off" />
+      <button id="sofia-send-btn" onclick="sofiaChat()" aria-label="Send melding">➤</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Sofia widget — bruker sidens design-tokens ──────────────── */
+  #sofia-launcher{position:fixed; bottom:26px; right:26px; z-index:2147483000; display:flex; flex-direction:column; align-items:center; cursor:pointer; user-select:none; -webkit-user-select:none;}
+  #sofia-launcher-icon{width:56px; height:56px; background:var(--petrol); color:var(--ink); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.45rem; box-shadow:var(--shadow); transition:transform .18s ease;}
+  #sofia-launcher:hover #sofia-launcher-icon{transform:scale(1.07);}
+  #sofia-notif{position:absolute; top:-2px; right:-2px; background:var(--brass); color:#1D2622; font-size:.66rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--sans); border:2px solid var(--paper); transition:opacity .3s ease;}
+
+  #sofia-panel{position:fixed; bottom:100px; right:26px; z-index:2147483000; width:360px; max-height:calc(100vh - 140px); background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden; font-family:var(--sans); opacity:0; transform:translateY(14px) scale(.97); pointer-events:none; transition:opacity .2s ease, transform .2s ease;}
+  #sofia-panel.sofia-open{opacity:1; transform:translateY(0) scale(1); pointer-events:all;}
+
+  #sofia-header{background:var(--petrol); padding:13px 14px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;}
+  #sofia-header-left{display:flex; align-items:center; gap:10px;}
+  #sofia-avatar{width:36px; height:36px; background:rgba(0,0,0,.15); border:1.5px solid var(--brass); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:700; color:var(--ink); flex-shrink:0;}
+  #sofia-title{color:var(--ink); font-weight:700; font-size:.95rem; line-height:1.2; font-family:var(--sans);}
+  #sofia-subtitle{color:var(--ink-soft); font-size:.72rem; display:flex; align-items:center; gap:5px;}
+  #sofia-subtitle::before{content:''; display:inline-block; width:6px; height:6px; background:var(--brass); border-radius:50%; flex-shrink:0;}
+  #sofia-close-btn{background:rgba(0,0,0,.15); border:none; color:var(--ink); width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:.8rem; display:flex; align-items:center; justify-content:center; transition:background .15s; flex-shrink:0;}
+  #sofia-close-btn:hover{background:rgba(0,0,0,.3);}
+
+  #sofia-chat-panel{display:flex; flex-direction:column; flex:1; overflow:hidden; min-height:0;}
+  #sofia-messages{flex:1; overflow-y:auto; padding:14px 12px 10px; display:flex; flex-direction:column; gap:8px; background:var(--paper); min-height:240px; max-height:380px; scroll-behavior:smooth;}
+  #sofia-input-row{display:flex; gap:8px; padding:10px 12px; background:var(--card); border-top:1px solid var(--line); flex-shrink:0;}
+  #sofia-input{flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:var(--radius); font-size:.85rem; font-family:var(--sans); outline:none; transition:border-color .15s; background:var(--paper-hi); color:var(--ink);}
+  #sofia-input:focus{border-color:var(--petrol);}
+  #sofia-input:disabled{opacity:.6;}
+  #sofia-send-btn{width:36px; height:36px; background:var(--petrol); color:var(--ink); border:none; border-radius:var(--radius); font-size:.9rem; cursor:pointer; transition:opacity .2s, transform .1s; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  #sofia-send-btn:hover{opacity:.88;}
+  #sofia-send-btn:active{transform:scale(.94);}
+  #sofia-send-btn:disabled{opacity:.4; cursor:not-allowed;}
+
+  .sofia-msg{max-width:88%; padding:8px 12px; border-radius:var(--radius); font-size:.84rem; line-height:1.55; word-break:break-word; animation:sofia-pop .18s ease; font-family:var(--sans);}
+  @keyframes sofia-pop{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+  .sofia-msg.sofia-agent{background:var(--card); border:1px solid var(--line); color:var(--ink); align-self:flex-start;}
+  .sofia-msg.sofia-user{background:var(--petrol); color:var(--ink); align-self:flex-end;}
+  .sofia-msg a{color:var(--brass); text-decoration:underline;}
+
+  #sofia-typing{display:none; align-self:flex-start; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; gap:4px;}
+  #sofia-typing.sofia-typing-on{display:flex;}
+  #sofia-typing span{width:6px; height:6px; background:var(--ink-soft); border-radius:50%; animation:sofia-bounce 1.2s infinite;}
+  #sofia-typing span:nth-child(2){animation-delay:.2s;}
+  #sofia-typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes sofia-bounce{0%,60%,100%{transform:translateY(0); opacity:.5;} 30%{transform:translateY(-5px); opacity:1;}}
+
+  @media (max-width:420px){
+    #sofia-panel{width:calc(100vw - 16px); right:8px; bottom:86px;}
+    #sofia-launcher{bottom:16px; right:16px;}
+    #sofia-messages{max-height:300px;}
+  }
+</style>
+
+<script>
+  /* Ingen Retell-nøkkel her — alt går via n8n-proxyen (Sofia Personal
+     API Proxy), som holder nøkkelen server-side. Verifisert live 2026-08-24. */
+  const SOFIA_PROXY_BASE = 'https://herheim.app.n8n.cloud/webhook';
+
+  let sofiaPanelOpen = false, sofiaGreetingShown = false, sofiaChatId = null;
+
+  window.sofiaToggle = function () {
+    sofiaPanelOpen = !sofiaPanelOpen;
+    const panel = document.getElementById('sofia-panel');
+    const icon = document.getElementById('sofia-launcher-icon');
+    const notif = document.getElementById('sofia-notif');
+    if (sofiaPanelOpen) {
+      panel.classList.add('sofia-open');
+      icon.textContent = '✕';
+      notif.style.opacity = '0';
+      if (!sofiaGreetingShown) { sofiaGreetingShown = true; sofiaShowGreeting(); }
+    } else {
+      panel.classList.remove('sofia-open');
+      icon.textContent = '💬';
+    }
+  };
+
+  function sofiaLinkify(text) {
+    return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" class="sofia-ext-link" rel="noopener noreferrer">$1</a>');
+  }
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest('a.sofia-ext-link');
+    if (!a) return;
+    e.preventDefault();
+    const w = screen.availWidth || 1280, h = screen.availHeight || 800;
+    const pw = Math.min(1000, Math.round(w * 0.7)), ph = Math.min(800, Math.round(h * 0.9));
+    window.open(a.href, 'sofia_preview', 'width=' + pw + ',height=' + ph + ',left=0,top=0,noopener,noreferrer');
+  });
+
+  function sofiaAddMsg(text, role, animate) {
+    const box = document.getElementById('sofia-messages');
+    const typing = document.getElementById('sofia-typing');
+    const el = document.createElement('div');
+    el.className = 'sofia-msg sofia-' + role;
+    if (animate && role === 'agent') {
+      el.innerHTML = '<span class="sofia-body"></span>';
+      box.insertBefore(el, typing);
+      box.scrollTop = box.scrollHeight;
+      const words = text.split(' ');
+      const delay = Math.min(75, Math.max(18, 1800 / words.length));
+      const body = el.querySelector('.sofia-body');
+      let i = 0;
+      const tick = function () {
+        if (i < words.length) {
+          body.textContent += (i === 0 ? '' : ' ') + words[i++];
+          box.scrollTop = box.scrollHeight;
+          setTimeout(tick, delay);
+        } else {
+          body.innerHTML = sofiaLinkify(text);
+        }
+      };
+      setTimeout(tick, 0);
+    } else {
+      el.innerHTML = sofiaLinkify(text);
+      box.insertBefore(el, typing);
+      box.scrollTop = box.scrollHeight;
+    }
+  }
+
+  function sofiaSetTyping(show) {
+    const t = document.getElementById('sofia-typing');
+    const box = document.getElementById('sofia-messages');
+    if (show) { t.classList.add('sofia-typing-on'); box.scrollTop = box.scrollHeight; }
+    else { t.classList.remove('sofia-typing-on'); }
+  }
+
+  function sofiaShowGreeting() {
+    sofiaSetTyping(true);
+    setTimeout(function () {
+      sofiaSetTyping(false);
+      sofiaAddMsg('Hei! Jeg er Sofia — jeg kan fortelle deg om Christian, det han bygger, eller hjelpe deg med å komme i kontakt med ham. Hva lurer du på?', 'agent', true);
+    }, 450);
+  }
+
+  async function sofiaEnsureChat() {
+    if (sofiaChatId) return sofiaChatId;
+    const res = await fetch(SOFIA_PROXY_BASE + '/sofia-personal-create-chat', { method: 'POST' });
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    sofiaChatId = data.chat_id;
+    return sofiaChatId;
+  }
+
+  window.sofiaChat = async function () {
+    const input = document.getElementById('sofia-input');
+    const sendBtn = document.getElementById('sofia-send-btn');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.disabled = true;
+    sendBtn.disabled = true;
+    sofiaAddMsg(text, 'user', false);
+    sofiaSetTyping(true);
+    try {
+      await sofiaEnsureChat();
+      const res = await fetch(SOFIA_PROXY_BASE + '/sofia-personal-chat-completion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: sofiaChatId, content: text })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      const agentMsgs = (data.messages || []).filter(function (m) { return m.role === 'agent'; });
+      if (agentMsgs.length > 0) {
+        agentMsgs.forEach(function (m) { sofiaAddMsg(m.content, 'agent', true); });
+      } else {
+        sofiaAddMsg('Beklager, noe gikk galt. Prøv gjerne igjen.', 'agent', true);
+      }
+    } catch (err) {
+      sofiaAddMsg('Beklager, jeg får ikke kontakt akkurat nå. Prøv igjen om et øyeblikk, eller send en e-post til christian@caramelly.no.', 'agent', true);
+    } finally {
+      sofiaSetTyping(false);
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  };
+</script>
+<!-- ═══════════════════════════════════════════════════════════
+     SOFIA WIDGET — SLUTT
+══════════════════════════════════════════════════════════════ -->
