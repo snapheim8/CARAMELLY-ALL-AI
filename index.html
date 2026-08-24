@@ -342,27 +342,25 @@
       </div>
 
       <div class="contact-card">
-        <h3 data-i18n="contact.formH3">Send en melding</h3>
-        <p data-i18n="contact.formP">Fyll ut skjemaet — det åpner en ferdigutfylt e-post til meg, direkte fra din egen e-postklient.</p>
-        <form id="contactForm">
-          <div class="f-row2">
-            <div class="field"><label for="cname" data-i18n="contact.labelName">Navn</label><input id="cname" name="cname" type="text" required autocomplete="name"></div>
-            <div class="field"><label for="ccompany" data-i18n="contact.labelCompany">Selskap / rolle</label><input id="ccompany" name="ccompany" type="text" autocomplete="organization"></div>
-          </div>
-          <div class="field"><label for="cemail" data-i18n="contact.labelEmail">E-post</label><input id="cemail" name="cemail" type="email" required autocomplete="email"></div>
-          <div class="field"><label for="cmsg" data-i18n="contact.labelMsg">Melding</label><textarea id="cmsg" name="cmsg" placeholder="Hva vil du snakke om?" data-i18n-placeholder="contact.placeholderMsg" required></textarea></div>
-          <div><button type="submit" class="btn btn-primary" data-i18n="contact.submit">Send melding</button></div>
-          <p class="form-note" data-i18n="contact.formNote">Sendes fra din egen e-postklient — ingenting lagres av denne siden.</p>
-        </form>
+        <h3 data-i18n="contact.receptionH3">Sofia — resepsjonen</h3>
+        <p data-i18n="contact.receptionP">Chat med Sofia. Hun kan fortelle om meg, og tar gjerne imot kontaktinfo hvis du vil at jeg tar kontakt.</p>
 
-        <div class="confirm" id="confirmBox">
-          <p data-i18n-html="contact.confirmReady"><strong>E-posten er klargjort.</strong> Åpne den i din e-postklient, eller kopiér teksten og send den manuelt.</p>
-          <div class="confirm-actions">
-            <a class="btn btn-primary btn-sm" id="mailtoLink" href="#" data-i18n="contact.openEmail">Åpne e-post</a>
-            <button class="btn btn-ghost btn-sm" id="copyBtn" type="button" data-i18n="contact.copyText">Kopiér tekst</button>
-          </div>
-          <div class="msg-preview" id="msgPreview"></div>
+        <div class="sofia-quick-replies">
+          <button type="button" class="sofia-quick-btn" data-msg-key="q1" data-i18n="contact.q1">Jeg vil ta kontakt</button>
+          <button type="button" class="sofia-quick-btn" data-msg-key="q2" data-i18n="contact.q2">Fortell meg om Christian</button>
+          <button type="button" class="sofia-quick-btn" data-msg-key="q3" data-i18n="contact.q3">Book et møte</button>
         </div>
+
+        <div id="sofia-reception-messages" class="sofia-inline-messages" aria-live="polite" aria-label="Samtale med Sofia">
+          <div id="sofia-reception-typing" class="sofia-typing" aria-label="Sofia skriver"><span></span><span></span><span></span></div>
+        </div>
+
+        <div id="sofia-reception-input-row" class="sofia-inline-input-row">
+          <input id="sofia-reception-input" type="text" placeholder="Skriv en melding…" data-i18n-placeholder="contact.inputPlaceholder" aria-label="Melding til Sofia" autocomplete="off">
+          <button id="sofia-reception-send-btn" class="sofia-inline-send-btn" aria-label="Send melding">➤</button>
+        </div>
+
+        <p class="form-note" data-i18n="contact.receptionNote">Sofia er en AI-assistent, ikke et menneske. Meldingene dine behandles av Retell/OpenAI for å generere svar. Kontaktinfo du selv oppgir (navn, e-post, telefon) lagres kun for at Christian skal kunne følge deg opp — aldri til andre formål. Vil du at informasjonen slettes? Send en e-post til christian@caramelly.no.</p>
       </div>
     </div>
   </section>
@@ -407,55 +405,6 @@
     els.forEach(function(el){ el.classList.add('in'); });
   }
 
-  var TO_EMAIL = "christian@caramelly.no";
-  var form = document.getElementById('contactForm');
-  var confirmBox = document.getElementById('confirmBox');
-  var mailtoLink = document.getElementById('mailtoLink');
-  var msgPreview = document.getElementById('msgPreview');
-  var copyBtn = document.getElementById('copyBtn');
-
-  form.addEventListener('submit', function(ev){
-    ev.preventDefault();
-    var name = document.getElementById('cname').value.trim();
-    var company = document.getElementById('ccompany').value.trim();
-    var email = document.getElementById('cemail').value.trim();
-    var msg = document.getElementById('cmsg').value.trim();
-    var t = I18N[CUR_LANG];
-
-    var bodyLines = [
-      t['mail.nameLabel'] + " " + name,
-      t['mail.companyLabel'] + " " + (company || "–"),
-      t['mail.emailLabel'] + " " + email,
-      "",
-      msg,
-      "",
-      t['mail.signature']
-    ];
-    var body = bodyLines.join("\n");
-    var subject = t['mail.subjectPrefix'] + (name || (CUR_LANG === 'en' ? "the website" : "nettsiden")) + (company ? " (" + company + ")" : "");
-
-    var mailto = "mailto:" + encodeURIComponent(TO_EMAIL)
-      + "?subject=" + encodeURIComponent(subject)
-      + "&body=" + encodeURIComponent(body);
-
-    mailtoLink.setAttribute('href', mailto);
-    msgPreview.textContent = t['mail.previewTo'] + TO_EMAIL + "\n" + t['mail.previewSubject'] + subject + "\n\n" + body;
-    confirmBox.classList.add('show');
-    confirmBox.scrollIntoView({behavior:'smooth', block:'nearest'});
-    window.location.href = mailto;
-  });
-
-  copyBtn.addEventListener('click', function(){
-    var text = msgPreview.textContent;
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){
-        var t = I18N[CUR_LANG];
-        copyBtn.textContent = t['mail.copied'];
-        setTimeout(function(){ copyBtn.textContent = t['contact.copyText']; }, 1800);
-      });
-    }
-  });
-
   document.querySelectorAll('.bio-flip').forEach(function(btn){
     btn.addEventListener('click', function(){
       var flipped = btn.classList.toggle('flipped');
@@ -493,13 +442,10 @@
       'board.soon':'Invitasjonen kommer snart',
       'contact.h2':'Ta kontakt direkte', 'contact.lede':'Møt meg på ONS, eller ta kontakt her — begge deler fungerer like bra.',
       'contact.emailLabel':'E-post', 'contact.phoneLabel':'Telefon', 'contact.whereLabel':'Hvor', 'contact.whereValue':'ONS, Stavanger — send en melding for å avtale tid',
-      'contact.formH3':'Send en melding', 'contact.formP':'Fyll ut skjemaet — det åpner en ferdigutfylt e-post til meg, direkte fra din egen e-postklient.',
-      'contact.labelName':'Navn', 'contact.labelCompany':'Selskap / rolle', 'contact.labelEmail':'E-post', 'contact.labelMsg':'Melding', 'contact.placeholderMsg':'Hva vil du snakke om?',
-      'contact.submit':'Send melding', 'contact.formNote':'Sendes fra din egen e-postklient — ingenting lagres av denne siden.',
-      'contact.confirmReady':'<strong>E-posten er klargjort.</strong> Åpne den i din e-postklient, eller kopiér teksten og send den manuelt.',
-      'contact.openEmail':'Åpne e-post', 'contact.copyText':'Kopiér tekst',
-      'bio.eyebrow':'Hele meg, ikke bare AI', 'bio.front':'Klikk for mer →', 'bio.context':'Om å tvinge meg selv til å løse AI hands-on — for 18 måneder siden.', 'bio.link':'Fra et innlegg på LinkedIn →', 'bio.back':'← Tilbake',
-      'mail.nameLabel':'Navn:', 'mail.companyLabel':'Selskap/rolle:', 'mail.emailLabel':'E-post:', 'mail.signature':'— sendt fra all-things-AI-siden', 'mail.subjectPrefix':'Kontakt fra ', 'mail.previewTo':'Til: ', 'mail.previewSubject':'Emne: ', 'mail.copied':'Kopiert!'
+      'contact.receptionH3':'Sofia — resepsjonen', 'contact.receptionP':'Chat med Sofia. Hun kan fortelle om meg, og tar gjerne imot kontaktinfo hvis du vil at jeg tar kontakt.',
+      'contact.q1':'Jeg vil ta kontakt', 'contact.q2':'Fortell meg om Christian', 'contact.q3':'Book et møte', 'contact.inputPlaceholder':'Skriv en melding…',
+      'contact.receptionNote':'Sofia er en AI-assistent, ikke et menneske. Meldingene dine behandles av Retell/OpenAI for å generere svar. Kontaktinfo du selv oppgir (navn, e-post, telefon) lagres kun for at Christian skal kunne følge deg opp — aldri til andre formål. Vil du at informasjonen slettes? Send en e-post til christian@caramelly.no.',
+      'bio.eyebrow':'Hele meg, ikke bare AI', 'bio.front':'Klikk for mer →', 'bio.context':'Om å tvinge meg selv til å løse AI hands-on — for 18 måneder siden.', 'bio.link':'Fra et innlegg på LinkedIn →', 'bio.back':'← Tilbake'
     },
     en: {
       'nav.impact':'Impact', 'nav.tilbud':'How I can help', 'nav.styrerommet':'Those who lead', 'nav.kontakt':'Contact', 'nav.cta':'Get in touch',
@@ -528,13 +474,10 @@
       'board.soon':'Invitation coming soon',
       'contact.h2':'Get in touch directly', 'contact.lede':'Meet me at ONS, or reach out here — either works just as well.',
       'contact.emailLabel':'Email', 'contact.phoneLabel':'Phone', 'contact.whereLabel':'Where', 'contact.whereValue':'ONS, Stavanger — send a message to arrange a time',
-      'contact.formH3':'Send a message', 'contact.formP':'Fill out the form — it opens a pre-filled email to me, directly from your own email client.',
-      'contact.labelName':'Name', 'contact.labelCompany':'Company / role', 'contact.labelEmail':'Email', 'contact.labelMsg':'Message', 'contact.placeholderMsg':'What would you like to talk about?',
-      'contact.submit':'Send message', 'contact.formNote':'Sent from your own email client — nothing is stored by this page.',
-      'contact.confirmReady':'<strong>Your email is ready.</strong> Open it in your email client, or copy the text and send it manually.',
-      'contact.openEmail':'Open email', 'contact.copyText':'Copy text',
-      'bio.eyebrow':'All of me, not just AI', 'bio.front':'Click for more →', 'bio.context':'On forcing myself to learn AI hands-on — 18 months ago.', 'bio.link':'From a LinkedIn post →', 'bio.back':'← Back',
-      'mail.nameLabel':'Name:', 'mail.companyLabel':'Company/role:', 'mail.emailLabel':'Email:', 'mail.signature':'— sent from the all-things-AI page', 'mail.subjectPrefix':'Contact from ', 'mail.previewTo':'To: ', 'mail.previewSubject':'Subject: ', 'mail.copied':'Copied!'
+      'contact.receptionH3':'Sofia — the reception', 'contact.receptionP':"Chat with Sofia. She can tell you about me, and is happy to take your contact details if you'd like me to reach out.",
+      'contact.q1':"I'd like to get in touch", 'contact.q2':'Tell me about Christian', 'contact.q3':'Book a meeting', 'contact.inputPlaceholder':'Type a message…',
+      'contact.receptionNote':"Sofia is an AI assistant, not a human. Your messages are processed by Retell/OpenAI to generate replies. Any contact details you choose to share (name, email, phone) are stored only so Christian can follow up — never for any other purpose. To have your information deleted, email christian@caramelly.no.",
+      'bio.eyebrow':'All of me, not just AI', 'bio.front':'Click for more →', 'bio.context':'On forcing myself to learn AI hands-on — 18 months ago.', 'bio.link':'From a LinkedIn post →', 'bio.back':'← Back'
     }
   };
 
@@ -604,6 +547,7 @@
         onkeydown="if(event.key==='Enter') sofiaChat()" autocomplete="off" />
       <button id="sofia-send-btn" onclick="sofiaChat()" aria-label="Send melding">➤</button>
     </div>
+    <div id="sofia-disclosure">AI-assistent · kontaktinfo lagres kun hvis du selv oppgir den</div>
   </div>
 </div>
 
@@ -636,6 +580,7 @@
   #sofia-send-btn:hover{opacity:.88;}
   #sofia-send-btn:active{transform:scale(.94);}
   #sofia-send-btn:disabled{opacity:.4; cursor:not-allowed;}
+  #sofia-disclosure{font-size:.62rem; color:var(--ink-soft); text-align:center; padding:5px 12px 9px; background:var(--card); line-height:1.4; opacity:.85;}
 
   .sofia-msg{max-width:88%; padding:8px 12px; border-radius:var(--radius); font-size:.84rem; line-height:1.55; word-break:break-word; animation:sofia-pop .18s ease; font-family:var(--sans);}
   @keyframes sofia-pop{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
@@ -643,12 +588,29 @@
   .sofia-msg.sofia-user{background:var(--petrol); color:var(--ink); align-self:flex-end;}
   .sofia-msg a{color:var(--brass); text-decoration:underline;}
 
-  #sofia-typing{display:none; align-self:flex-start; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; gap:4px;}
-  #sofia-typing.sofia-typing-on{display:flex;}
-  #sofia-typing span{width:6px; height:6px; background:var(--ink-soft); border-radius:50%; animation:sofia-bounce 1.2s infinite;}
-  #sofia-typing span:nth-child(2){animation-delay:.2s;}
-  #sofia-typing span:nth-child(3){animation-delay:.4s;}
+  #sofia-typing, .sofia-typing{display:none; align-self:flex-start; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; gap:4px;}
+  #sofia-typing.sofia-typing-on, .sofia-typing.sofia-typing-on{display:flex;}
+  #sofia-typing span, .sofia-typing span{width:6px; height:6px; background:var(--ink-soft); border-radius:50%; animation:sofia-bounce 1.2s infinite;}
+  #sofia-typing span:nth-child(2), .sofia-typing span:nth-child(2){animation-delay:.2s;}
+  #sofia-typing span:nth-child(3), .sofia-typing span:nth-child(3){animation-delay:.4s;}
   @keyframes sofia-bounce{0%,60%,100%{transform:translateY(0); opacity:.5;} 30%{transform:translateY(-5px); opacity:1;}}
+
+  /* ── Sofia — resepsjon (innbygd chat i kontakt-seksjonen) ────── */
+  .sofia-quick-replies{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 12px;}
+  .sofia-quick-btn{font-family:var(--sans); font-size:.78rem; font-weight:600; padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--paper-hi); color:var(--ink); cursor:pointer; transition:border-color .15s ease, color .15s ease, background .15s ease;}
+  .sofia-quick-btn:hover{border-color:var(--brass); color:var(--brass);}
+  .sofia-quick-btn:disabled{opacity:.5; cursor:not-allowed;}
+
+  .sofia-inline-messages{display:flex; flex-direction:column; gap:8px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:12px 10px; min-height:190px; max-height:320px; overflow-y:auto; scroll-behavior:smooth;}
+
+  .sofia-inline-input-row{display:flex; gap:8px; margin-top:10px;}
+  #sofia-reception-input{flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:var(--radius); font-size:.85rem; font-family:var(--sans); outline:none; transition:border-color .15s; background:var(--paper-hi); color:var(--ink);}
+  #sofia-reception-input:focus{border-color:var(--petrol);}
+  #sofia-reception-input:disabled{opacity:.6;}
+  .sofia-inline-send-btn{width:36px; height:36px; background:var(--petrol); color:var(--ink); border:none; border-radius:var(--radius); font-size:.9rem; cursor:pointer; transition:opacity .2s, transform .1s; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .sofia-inline-send-btn:hover{opacity:.88;}
+  .sofia-inline-send-btn:active{transform:scale(.94);}
+  .sofia-inline-send-btn:disabled{opacity:.4; cursor:not-allowed;}
 
   @media (max-width:420px){
     #sofia-panel{width:calc(100vw - 16px); right:8px; bottom:86px;}
@@ -780,6 +742,179 @@
       input.focus();
     }
   };
+</script>
+
+<script>
+  /* Sofia — resepsjonen (innbygd chat i #kontakt, erstatter det gamle
+     kontaktskjemaet). Bevisst en egen, selvstendig kopi av samme
+     mønster som boblen over (egen chat-sesjon, lat opprettelse — ingen
+     create-chat før første ekte melding — samme n8n-proxy), i stedet
+     for delt kode: unngår enhver risiko for å rokke ved boblen, som
+     allerede er verifisert live. Lagt til av Claude 2026-08-24. */
+  (function(){
+    var receptionChatId = null;
+    var receptionGreetingShown = false;
+
+    var RECEPTION_MSGS = {
+      no: {
+        greeting: 'Hei! Jeg er Sofia. Spør meg om Christian, eller trykk en av knappene under for å komme raskt i gang.',
+        q1: 'Jeg vil gjerne ta kontakt med Christian.',
+        q2: 'Kan du fortelle meg litt om Christian og hva han jobber med?',
+        q3: 'Jeg ønsker å avtale et møte med Christian.',
+        error: 'Beklager, jeg får ikke kontakt akkurat nå. Prøv igjen om et øyeblikk, eller send en e-post til christian@caramelly.no.'
+      },
+      en: {
+        greeting: "Hi! I'm Sofia. Ask me about Christian, or tap one of the buttons below to get started quickly.",
+        q1: "I'd like to get in touch with Christian.",
+        q2: 'Can you tell me a bit about Christian and what he works on?',
+        q3: "I'd like to book a meeting with Christian.",
+        error: "Sorry, I can't connect right now. Please try again shortly, or email christian@caramelly.no."
+      }
+    };
+
+    function receptionMsgs(){
+      return RECEPTION_MSGS[(typeof CUR_LANG !== 'undefined' && CUR_LANG === 'en') ? 'en' : 'no'];
+    }
+
+    function receptionLinkify(text) {
+      return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" class="sofia-ext-link" rel="noopener noreferrer">$1</a>');
+    }
+
+    function receptionAddMsg(text, role, animate) {
+      var box = document.getElementById('sofia-reception-messages');
+      var typing = document.getElementById('sofia-reception-typing');
+      if (!box || !typing) return;
+      var el = document.createElement('div');
+      el.className = 'sofia-msg sofia-' + role;
+      if (animate && role === 'agent') {
+        el.innerHTML = '<span class="sofia-body"></span>';
+        box.insertBefore(el, typing);
+        box.scrollTop = box.scrollHeight;
+        var words = text.split(' ');
+        var delay = Math.min(75, Math.max(18, 1800 / words.length));
+        var body = el.querySelector('.sofia-body');
+        var i = 0;
+        var tick = function () {
+          if (i < words.length) {
+            body.textContent += (i === 0 ? '' : ' ') + words[i++];
+            box.scrollTop = box.scrollHeight;
+            setTimeout(tick, delay);
+          } else {
+            body.innerHTML = receptionLinkify(text);
+          }
+        };
+        setTimeout(tick, 0);
+      } else {
+        el.textContent = text;
+        box.insertBefore(el, typing);
+        box.scrollTop = box.scrollHeight;
+      }
+    }
+
+    function receptionSetTyping(show) {
+      var t = document.getElementById('sofia-reception-typing');
+      var box = document.getElementById('sofia-reception-messages');
+      if (!t || !box) return;
+      if (show) { t.classList.add('sofia-typing-on'); box.scrollTop = box.scrollHeight; }
+      else { t.classList.remove('sofia-typing-on'); }
+    }
+
+    function receptionShowGreeting() {
+      if (receptionGreetingShown) return;
+      receptionGreetingShown = true;
+      receptionSetTyping(true);
+      setTimeout(function () {
+        receptionSetTyping(false);
+        receptionAddMsg(receptionMsgs().greeting, 'agent', true);
+      }, 400);
+    }
+
+    async function receptionEnsureChat() {
+      if (receptionChatId) return receptionChatId;
+      var res = await fetch(SOFIA_PROXY_BASE + '/sofia-personal-create-chat', { method: 'POST' });
+      if (!res.ok) throw new Error(await res.text());
+      var data = await res.json();
+      receptionChatId = data.chat_id;
+      return receptionChatId;
+    }
+
+    async function receptionSend(text) {
+      if (!text) return;
+      var input = document.getElementById('sofia-reception-input');
+      var sendBtn = document.getElementById('sofia-reception-send-btn');
+      var quickBtns = document.querySelectorAll('.sofia-quick-btn');
+      input.disabled = true;
+      sendBtn.disabled = true;
+      quickBtns.forEach(function (b) { b.disabled = true; });
+      receptionAddMsg(text, 'user', false);
+      receptionSetTyping(true);
+      try {
+        await receptionEnsureChat();
+        var res = await fetch(SOFIA_PROXY_BASE + '/sofia-personal-chat-completion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: receptionChatId, content: text })
+        });
+        if (!res.ok) throw new Error(await res.text());
+        var data = await res.json();
+        var agentMsgs = (data.messages || []).filter(function (m) { return m.role === 'agent'; });
+        if (agentMsgs.length > 0) {
+          agentMsgs.forEach(function (m) { receptionAddMsg(m.content, 'agent', true); });
+        } else {
+          receptionAddMsg(receptionMsgs().error, 'agent', true);
+        }
+      } catch (err) {
+        receptionAddMsg(receptionMsgs().error, 'agent', true);
+      } finally {
+        receptionSetTyping(false);
+        input.disabled = false;
+        sendBtn.disabled = false;
+        quickBtns.forEach(function (b) { b.disabled = false; });
+        input.focus();
+      }
+    }
+
+    var receptionInput = document.getElementById('sofia-reception-input');
+    var receptionSendBtn = document.getElementById('sofia-reception-send-btn');
+
+    if (receptionInput && receptionSendBtn) {
+      receptionSendBtn.addEventListener('click', function () {
+        var text = receptionInput.value.trim();
+        if (!text) return;
+        receptionInput.value = '';
+        receptionSend(text);
+      });
+      receptionInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          var text = receptionInput.value.trim();
+          if (!text) return;
+          receptionInput.value = '';
+          receptionSend(text);
+        }
+      });
+      document.querySelectorAll('.sofia-quick-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var key = btn.getAttribute('data-msg-key');
+          var text = receptionMsgs()[key];
+          if (text) receptionSend(text);
+        });
+      });
+
+      // Sofia hilser først når besøkende faktisk scroller til resepsjonen
+      // — som en resepsjonist som møter deg ved disken, ikke roper fra gangen.
+      var kontaktSection = document.getElementById('kontakt');
+      if (kontaktSection && 'IntersectionObserver' in window) {
+        var receptionIo = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { receptionShowGreeting(); receptionIo.unobserve(entry.target); }
+          });
+        }, { threshold: .2 });
+        receptionIo.observe(kontaktSection);
+      } else {
+        receptionShowGreeting();
+      }
+    }
+  })();
 </script>
 <!-- ═══════════════════════════════════════════════════════════
      SOFIA WIDGET — SLUTT

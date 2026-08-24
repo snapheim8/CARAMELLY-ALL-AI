@@ -703,6 +703,7 @@
         onkeydown="if(event.key==='Enter') sofiaChat()" autocomplete="off" />
       <button id="sofia-send-btn" onclick="sofiaChat()" aria-label="Send melding">➤</button>
     </div>
+    <div id="sofia-disclosure">AI-assistent · kontaktinfo lagres kun hvis du selv oppgir den</div>
   </div>
 </div>
 
@@ -735,6 +736,7 @@
   #sofia-send-btn:hover{opacity:.88;}
   #sofia-send-btn:active{transform:scale(.94);}
   #sofia-send-btn:disabled{opacity:.4; cursor:not-allowed;}
+  #sofia-disclosure{font-size:.62rem; color:var(--ink-soft); text-align:center; padding:5px 12px 9px; background:var(--card); line-height:1.4; opacity:.85;}
 
   .sofia-msg{max-width:88%; padding:8px 12px; border-radius:var(--radius); font-size:.84rem; line-height:1.55; word-break:break-word; animation:sofia-pop .18s ease; font-family:var(--sans);}
   @keyframes sofia-pop{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
