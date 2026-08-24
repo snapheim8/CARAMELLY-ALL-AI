@@ -582,13 +582,13 @@
   #sofia-send-btn:disabled{opacity:.4; cursor:not-allowed;}
   #sofia-disclosure{font-size:.62rem; color:var(--ink-soft); text-align:center; padding:5px 12px 9px; background:var(--card); line-height:1.4; opacity:.85;}
 
-  .sofia-msg{max-width:88%; padding:8px 12px; border-radius:var(--radius); font-size:.84rem; line-height:1.55; word-break:break-word; animation:sofia-pop .18s ease; font-family:var(--sans);}
+  .sofia-msg{max-width:90%; font-size:.84rem; line-height:1.6; word-break:break-word; animation:sofia-pop .18s ease; font-family:var(--sans); padding:1px 0;}
   @keyframes sofia-pop{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
-  .sofia-msg.sofia-agent{background:var(--card); border:1px solid var(--line); color:var(--ink); align-self:flex-start;}
-  .sofia-msg.sofia-user{background:var(--petrol); color:var(--ink); align-self:flex-end;}
+  .sofia-msg.sofia-agent{border-left:2px solid var(--brass); padding-left:12px; color:var(--ink); align-self:flex-start;}
+  .sofia-msg.sofia-user{border-right:2px solid var(--petrol); padding-right:12px; color:var(--petrol); font-weight:600; align-self:flex-end; text-align:right;}
   .sofia-msg a{color:var(--brass); text-decoration:underline;}
 
-  #sofia-typing, .sofia-typing{display:none; align-self:flex-start; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; gap:4px;}
+  #sofia-typing, .sofia-typing{display:none; align-self:flex-start; gap:4px; padding:8px 0 8px 12px; border-left:2px solid var(--line);}
   #sofia-typing.sofia-typing-on, .sofia-typing.sofia-typing-on{display:flex;}
   #sofia-typing span, .sofia-typing span{width:6px; height:6px; background:var(--ink-soft); border-radius:50%; animation:sofia-bounce 1.2s infinite;}
   #sofia-typing span:nth-child(2), .sofia-typing span:nth-child(2){animation-delay:.2s;}
@@ -601,7 +601,7 @@
   .sofia-quick-btn:hover{border-color:var(--brass); color:var(--brass);}
   .sofia-quick-btn:disabled{opacity:.5; cursor:not-allowed;}
 
-  .sofia-inline-messages{display:flex; flex-direction:column; gap:8px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:12px 10px; min-height:190px; max-height:320px; overflow-y:auto; scroll-behavior:smooth;}
+  .sofia-inline-messages{display:flex; flex-direction:column; gap:12px; border:1px solid var(--line); border-radius:var(--radius); padding:16px 14px; min-height:190px; max-height:320px; overflow-y:auto; scroll-behavior:smooth;}
 
   .sofia-inline-input-row{display:flex; gap:8px; margin-top:10px;}
   #sofia-reception-input{flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:var(--radius); font-size:.85rem; font-family:var(--sans); outline:none; transition:border-color .15s; background:var(--paper-hi); color:var(--ink);}
