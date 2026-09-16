@@ -1,4 +1,10 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>All Things AI</title>
+<meta name="description" content="Christian Herheim — interimleder og AI-produkteier for utvikling, implementering og transformasjon.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -60,6 +66,12 @@
   .top-nav{display:flex; gap:22px; font-size:13.5px; font-weight:600;}
   .top-nav a{text-decoration:none; color:var(--ink-soft); transition:color .15s ease; white-space:nowrap;}
   .top-nav a:hover{color:var(--brass);}
+  .top-nav a.nav-flagship{color:var(--brass);}
+  @media (max-width:460px){
+    .top-inner{gap:10px; padding-left:16px; padding-right:16px;}
+    .brand small{display:none;}
+    .btn-sm{padding:8px 12px; font-size:12.5px;}
+  }
   @media (max-width:760px){ .top-nav{display:none;} }
   .lang-switch{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; flex-shrink:0;}
   .lang-btn{all:unset; box-sizing:border-box; cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.06em; font-weight:600; padding:6px 12px; color:var(--ink-soft); transition:background .15s ease, color .15s ease;}
@@ -106,6 +118,7 @@
   .position-body p + p{margin-top:12px;}
   .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
   .tag{font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; padding:6px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink-soft);}
+  .tag-flagship{background:var(--brass); border-color:var(--brass); color:#FBF6EA; font-weight:600;}
 
   /* impact grid */
   .impact-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
@@ -117,15 +130,26 @@
   .impact-card h3{font-size:19px; margin-top:8px; font-weight:600; font-family:var(--sans);}
   .impact-card p{margin-top:10px; font-size:14.5px; color:var(--ink-soft);}
   .impact-card .impact-line{margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-size:13px; color:var(--ink); font-weight:600;}
+  .impact-toggle{display:none;}
+  @media (max-width:780px){
+    .impact-card .impact-p{display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; line-clamp:3; overflow:hidden;}
+    .impact-card.open .impact-p{-webkit-line-clamp:unset; line-clamp:unset; overflow:visible;}
+    .impact-card:not(.open) .impact-line{display:none;}
+    .impact-toggle{display:inline-flex; align-items:center; gap:4px; margin-top:12px; padding:0; border:none; background:none; font-family:var(--mono); font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--brass); cursor:pointer; text-align:left;}
+    .impact-toggle:hover{text-decoration:underline;}
+    .impact-toggle .chev{transition:transform .2s ease; font-size:10px;}
+    .impact-card.open .impact-toggle .chev{transform:rotate(180deg);}
+  }
 
   /* interim / offer */
   .offer{background:var(--petrol); border-radius:var(--radius); padding:clamp(28px,5vw,44px); color:#F4F0E5;}
-  .offer .eyebrow{color:#EEBD73;}
-  .offer h2{color:#FBF6EA; font-size:clamp(24px,3vw,30px); margin-top:26px;}
+  .offer-flagship{border-top:4px solid var(--brass-hi); box-shadow:0 1px 2px rgba(24,35,31,.06), 0 20px 44px -18px rgba(24,35,31,.4);}
+  .offer .eyebrow{color:#EEBD73; font-weight:700;}
+  .offer-headline{color:#FBF6EA; font-family:var(--serif); font-size:clamp(32px,4.6vw,48px); line-height:1.08; letter-spacing:-.01em; margin-top:14px; max-width:20ch;}
   .offer p{color:#D9E3E0; font-size:15.5px; margin-top:14px; max-width:68ch;}
   .offer p + p{margin-top:10px;}
-  .offer .btn-primary{margin-top:20px;}
-  .offer-lede{font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.4vw,23px); line-height:1.35; color:#FBF6EA; margin-top:10px; max-width:60ch;}
+  .offer .btn-primary{margin-top:24px; font-size:16px; padding:14px 28px;}
+  .offer-lede{font-family:var(--serif); font-style:italic; font-size:clamp(17px,2vw,20px); line-height:1.4; color:#D9E3E0; margin-top:16px; max-width:62ch;}
   .offer-lede .accent{color:#EEBD73; font-style:normal;}
   .offer-quote{border-left:3px solid #EEBD73; padding-left:16px; margin:20px 0 0; font-style:italic; color:#F4F0E5; font-size:15px; line-height:1.55; max-width:60ch;}
   .offer-quote a{display:block; margin-top:8px; font-family:var(--mono); font-style:normal; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#EEBD73; text-decoration:none;}
@@ -146,8 +170,9 @@
   .quote-card-text{font-family:var(--serif); font-style:italic; font-size:16.5px; line-height:1.45; color:var(--ink);}
   .quote-card-meta{margin-top:16px; padding-top:14px; border-top:1px solid var(--line);}
   .quote-card-source{display:block; font-size:12px; color:var(--ink-soft); line-height:1.4;}
-  .quote-card-link{display:inline-block; margin-top:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--brass); text-decoration:none;}
-  .quote-card-link:hover{text-decoration:underline;}
+  .quote-card-link{display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--brass); text-decoration:none;}
+  .quote-card-link:hover span{text-decoration:underline;}
+  .quote-card-link .li-icon{width:14px; height:14px; flex-shrink:0; color:#0A66C2;}
   .quote-cta{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-top:8px;}
   .quote-cta p{font-size:15px; color:var(--ink-soft); max-width:48ch;}
 
@@ -209,13 +234,15 @@
   .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1; transform:none;}
 </style>
+</head>
+<body>
 
 <header class="top">
   <div class="top-inner">
     <div class="brand">CHRISTIAN <small>all things AI</small></div>
     <nav class="top-nav">
       <a href="#impact" data-i18n="nav.impact">Impact</a>
-      <a href="#tilbud" data-i18n="nav.tilbud">Hva jeg kan bistå med</a>
+      <a href="#tilbud" class="nav-flagship" data-i18n="nav.tilbud">Interim ledelse</a>
       <a href="#styrerommet" data-i18n="nav.styrerommet">De som styrer</a>
       <a href="#sitater" data-i18n="nav.sitater">Sitater</a>
       <a href="about.html" data-i18n="nav.om">Om meg</a>
@@ -259,11 +286,11 @@
         <p data-i18n="pos.p1">24 år med kommersiell ledelse i Shell, offentlig sektor og egne selskaper — fra gasskontrakter i fire land og en portefølje på flere milliarder euro, til batteriløsninger for arbitrasje og frekvensregulering før de store aktørene så det komme. Styringssystemer for risiko og etterlevelse fra Proactima, startet med AI-governance før AI Act eksisterte, og nå snart 18 måneder med hands-on AI-erfaring som byggeren bak flere egne AI-produkter. Jeg vibekoder selv, på samme måte som den nye generasjonen bruker AI, og implementerer AI-sikkerhet, ansvarlighet og styring — slik jeg ser ekspertene i de fremste selskapene gjøre det, der den nye generasjonen bruker AI.</p>
         <p data-i18n="pos.p2">Det gir meg noe de fleste rådgivere ikke har: samme uke som jeg diskuterer AI-strategi med et styre, sitter jeg og bygger noe med de samme verktøyene. Erfaringen er fersk, praktisk, og testet på ekte problemer. Ikke hentet fra en trend-rapport.</p>
         <div class="tag-row">
+          <span class="tag tag-flagship" data-i18n="pos.tag5">Interim ledelse</span>
           <span class="tag" data-i18n="pos.tag1">Kommersiell</span>
           <span class="tag" data-i18n="pos.tag2">Strategisk</span>
           <span class="tag" data-i18n="pos.tag3">Taktisk</span>
           <span class="tag" data-i18n="pos.tag4">Hands-on AI-bygger</span>
-          <span class="tag" data-i18n="pos.tag5">Interim ledelse</span>
         </div>
       </div>
     </div>
@@ -281,29 +308,33 @@
           <div class="impact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/></svg></div>
           <div class="tag-mini" data-i18n="impact.c1.tag">AI-resepsjonist</div>
           <h3>Sofia</h3>
-          <p data-i18n-html="impact.c1.p">De fleste kunder gir opp etter ett ubesvart forsøk. Telefonen ringer etter stengetid, kontaktskjemaet får aldri svar, og konkurrenten som svarer først vinner ofte kunden — det er smertepunktet de fleste norske SMB-er lever med hver dag, uten å ha en AI-strategi å møte det med. Sofia er svaret: en AI-resepsjonist som svarer med en gang, dag og natt, og gir hvert selskap et levende AI-fundament å bygge videre på. Du kan chatte med henne selv nederst på denne siden. Talebaserte AI-tjenester eksploderer internasjonalt — se <a href="https://cookinfiesta.com" target="_blank" rel="noopener">cookinfiesta.com</a> som et eksempel på hvor langt det kan tas — og det er neste steg for Sofia.</p>
+          <p class="impact-p" data-i18n-html="impact.c1.p">De fleste kunder gir opp etter ett ubesvart forsøk. Telefonen ringer etter stengetid, kontaktskjemaet får aldri svar, og konkurrenten som svarer først vinner ofte kunden — det er smertepunktet de fleste norske SMB-er lever med hver dag, uten å ha en AI-strategi å møte det med. Sofia er svaret: en AI-resepsjonist som svarer med en gang, dag og natt, og gir hvert selskap et levende AI-fundament å bygge videre på. Du kan chatte med henne selv nederst på denne siden. Talebaserte AI-tjenester eksploderer internasjonalt — se <a href="https://cookinfiesta.com" target="_blank" rel="noopener">cookinfiesta.com</a> som et eksempel på hvor langt det kan tas — og det er neste steg for Sofia.</p>
           <div class="impact-line" data-i18n="impact.c1.line">Del av Nikola-plattformen. Chat med henne selv nederst på siden.</div>
+          <button type="button" class="impact-toggle" aria-expanded="false"><span data-i18n="impact.readMore">Les mer</span> <span class="chev">▾</span></button>
         </div>
         <div class="impact-card">
           <div class="impact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg></div>
           <div class="tag-mini" data-i18n="impact.c2.tag">Offentlige anbud og EU-midler</div>
           <h3>Matchforger</h3>
-          <p data-i18n="impact.c2.p">Norge har over 600 milliarder kroner i offentlige utlysninger, og EU forvalter over 2 milliarder kroner i relevante prosjektmidler. De fleste mindre selskaper vet ikke at det de allerede leverer kan være verdt langt mer i det markedet. Matchforger kobler bedrifter til utlysninger hos blant annet Doffin og TED, og hjelper de mindre selskapene med å finne partnere som gjør at de når bedre opp i konkurransen. Neste steg er å la selskaper finne hverandre direkte, ved å legge ut egne oppdrag og forespørsler.</p>
+          <p class="impact-p" data-i18n="impact.c2.p">Norge har over 600 milliarder kroner i offentlige utlysninger, og EU forvalter over 2 milliarder kroner i relevante prosjektmidler. De fleste mindre selskaper vet ikke at det de allerede leverer kan være verdt langt mer i det markedet. Matchforger kobler bedrifter til utlysninger hos blant annet Doffin og TED, og hjelper de mindre selskapene med å finne partnere som gjør at de når bedre opp i konkurransen. Neste steg er å la selskaper finne hverandre direkte, ved å legge ut egne oppdrag og forespørsler.</p>
           <div class="impact-line" data-i18n="impact.c2.line">Henter data fra Nikola for økt troverdighet og relevans i hver søknad.</div>
+          <button type="button" class="impact-toggle" aria-expanded="false"><span data-i18n="impact.readMore">Les mer</span> <span class="chev">▾</span></button>
         </div>
         <div class="impact-card">
           <div class="impact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
           <div class="tag-mini" data-i18n="impact.c3.tag">AI-fundamentet for SMB</div>
           <h3>Nikola</h3>
-          <p data-i18n="impact.c3.p">SMB-er har lavest terskel for å ta i bruk KI-muskelen som finnes der ute — og det er nettopp den terskelen jeg har jobbet for å fjerne, slik at SMB-er kan bli med på reisen. Nikola er en lavterskel AI-plattform som følger bedriften din og bygger HMS, HR, markedsinnsikt, regnskap, kundeservice, ISO-sertifiseringer og svar på spørsmål om skatt og andre juridiske forhold. Vi har kommet så langt at vi nå tester en HR-modul som hjelper rekruttering i sanntids intervjuer, fordi vi allerede har erfaring med tale-til-tale-applikasjoner. Kobles rett på Tripletex og HR-systemene dine, eller bare slipp inn et Excel-ark. Markedet for en norsk AI-plattform for de mindre selskapene er enormt, og de fleste har ikke kommet i gang ennå.</p>
+          <p class="impact-p" data-i18n="impact.c3.p">SMB-er har lavest terskel for å ta i bruk KI-muskelen som finnes der ute — og det er nettopp den terskelen jeg har jobbet for å fjerne, slik at SMB-er kan bli med på reisen. Nikola er en lavterskel AI-plattform som følger bedriften din og bygger HMS, HR, markedsinnsikt, regnskap, kundeservice, ISO-sertifiseringer og svar på spørsmål om skatt og andre juridiske forhold. Vi har kommet så langt at vi nå tester en HR-modul som hjelper rekruttering i sanntids intervjuer, fordi vi allerede har erfaring med tale-til-tale-applikasjoner. Kobles rett på Tripletex og HR-systemene dine, eller bare slipp inn et Excel-ark. Markedet for en norsk AI-plattform for de mindre selskapene er enormt, og de fleste har ikke kommet i gang ennå.</p>
           <div class="impact-line" data-i18n="impact.c3.line">Nå under utvidelse med en HR-modul for sanntids rekrutteringsintervjuer.</div>
+          <button type="button" class="impact-toggle" aria-expanded="false"><span data-i18n="impact.readMore">Les mer</span> <span class="chev">▾</span></button>
         </div>
         <div class="impact-card">
           <div class="impact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
           <div class="tag-mini" data-i18n="impact.c4.tag">Hands-on, internasjonalt</div>
           <h3 data-i18n="impact.c4.h3">AI-hackathon med team i India</h3>
-          <p data-i18n="impact.c4.p">Gjennom Outskill sitt intensive AI-kurs bygget jeg, sammen med et internasjonalt team med utviklere i India, et AI-drevet research- og konkurrentanalyseverktøy: fra webhook-pipeline til skraping til AI-analyse. Levert på tid, midt på natten norsk tid.</p>
+          <p class="impact-p" data-i18n="impact.c4.p">Gjennom Outskill sitt intensive AI-kurs bygget jeg, sammen med et internasjonalt team med utviklere i India, et AI-drevet research- og konkurrentanalyseverktøy: fra webhook-pipeline til skraping til AI-analyse. Levert på tid, midt på natten norsk tid.</p>
           <div class="impact-line" data-i18n="impact.c4.line">Praktisk bevis: jeg koder selv.</div>
+          <button type="button" class="impact-toggle" aria-expanded="false"><span data-i18n="impact.readMore">Les mer</span> <span class="chev">▾</span></button>
         </div>
       </div>
     </div>
@@ -311,10 +342,10 @@
 
   <section id="tilbud" class="reveal">
     <div class="wrap">
-      <div class="offer">
-        <div class="eyebrow" data-i18n="offer.eyebrow">Slik jobber jeg</div>
+      <div class="offer offer-flagship">
+        <div class="eyebrow" data-i18n="offer.eyebrow">Kjernetilbudet</div>
+        <h2 class="offer-headline" data-i18n="offer.h2">Interim ledelse for AI-transformasjon</h2>
         <p class="offer-lede" data-i18n-html="offer.lede">Du snakker sikkert allerede med de store konsulenthusene. <span class="accent">Jeg inviterer til noe mindre</span>: en kort samtale som faktisk beveger noe. Ingen lange forslag, ingen anbudsrunder.</p>
-        <h2 data-i18n="offer.h2">Og når noen må ta grep: interim ledelse</h2>
         <p data-i18n="offer.p1">Ved siden av å bygge og videreutvikle Sofia, Matchforger og Nikola, bistår jeg selskaper med interim ledelse: rask styring når AI faktisk skal inn i organisasjonen og implementeres.</p>
         <p data-i18n="offer.p2">Jeg har selv programmert løsningene jeg snakker om. Det betyr at jeg kan gå fra strategisk samtale i styrerommet til konkret vurdering av hva som faktisk er mulig å bygge. Ingen tolk nødvendig mellom teknologi og forretning.</p>
         <a class="btn btn-primary" href="#kontakt" data-i18n="offer.cta">La oss snakke om det</a>
@@ -347,35 +378,35 @@
           <blockquote class="quote-card-text">«Tenk deg at du ansetter en ivrig fem-åring med en hukommelse som en 100-åring.»</blockquote>
           <div class="quote-card-meta">
             <span class="quote-card-source" data-i18n="quotes.q1.source">Hvor ble det av security på kontoret når AI-kompisen min er en breial smågangster?</span>
-            <a class="quote-card-link" href="https://www.linkedin.com/pulse/hvor-ble-det-av-security-p%C3%A5-kontoret-n%C3%A5r-ai-kompisen-min-herheim-bikae" target="_blank" rel="noopener" data-i18n="quotes.readLink">Les artikkelen →</a>
+            <a class="quote-card-link" href="https://www.linkedin.com/pulse/hvor-ble-det-av-security-p%C3%A5-kontoret-n%C3%A5r-ai-kompisen-min-herheim-bikae" target="_blank" rel="noopener" ><svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg><span data-i18n="quotes.readLink">Les artikkelen →</span></a>
           </div>
         </div>
         <div class="quote-card">
           <blockquote class="quote-card-text">«Your process can be optimized. Your organization has to evolve. Two different jobs. Only one of them has a ceiling.»</blockquote>
           <div class="quote-card-meta">
             <span class="quote-card-source" data-i18n="quotes.q2.source">Your AI Is Getting Faster. Your Organization Isn't.</span>
-            <a class="quote-card-link" href="https://www.linkedin.com/pulse/your-ai-getting-faster-organization-isnt-christian-herheim-tpeke" target="_blank" rel="noopener" data-i18n="quotes.readLink">Les artikkelen →</a>
+            <a class="quote-card-link" href="https://www.linkedin.com/pulse/your-ai-getting-faster-organization-isnt-christian-herheim-tpeke" target="_blank" rel="noopener" ><svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg><span data-i18n="quotes.readLink">Les artikkelen →</span></a>
           </div>
         </div>
         <div class="quote-card">
           <blockquote class="quote-card-text">«The machine just gave me the best case study I could have asked for. It rejected me. So I hired it as Exhibit A.»</blockquote>
           <div class="quote-card-meta">
             <span class="quote-card-source" data-i18n="quotes.q3.source">An AI just talked itself out of hiring the right CMO — and never noticed</span>
-            <a class="quote-card-link" href="https://www.linkedin.com/pulse/ai-just-talked-itself-out-hiring-right-cmo-never-noticed-herheim-k9o2e" target="_blank" rel="noopener" data-i18n="quotes.readLink">Les artikkelen →</a>
+            <a class="quote-card-link" href="https://www.linkedin.com/pulse/ai-just-talked-itself-out-hiring-right-cmo-never-noticed-herheim-k9o2e" target="_blank" rel="noopener" ><svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg><span data-i18n="quotes.readLink">Les artikkelen →</span></a>
           </div>
         </div>
         <div class="quote-card">
           <blockquote class="quote-card-text">«Excel is many small boxes pretending not to be boxes.»</blockquote>
           <div class="quote-card-meta">
             <span class="quote-card-source" data-i18n="quotes.q4.source">Why SaaS platforms are slowing down AI implementation</span>
-            <a class="quote-card-link" href="https://www.linkedin.com/pulse/why-saas-platforms-slowing-down-ai-implementation-truth-herheim-d8dce" target="_blank" rel="noopener" data-i18n="quotes.readLink">Les artikkelen →</a>
+            <a class="quote-card-link" href="https://www.linkedin.com/pulse/why-saas-platforms-slowing-down-ai-implementation-truth-herheim-d8dce" target="_blank" rel="noopener" ><svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg><span data-i18n="quotes.readLink">Les artikkelen →</span></a>
           </div>
         </div>
         <div class="quote-card">
           <blockquote class="quote-card-text">«I dag sitter konteksten i ryggmargen til folk. Den går ut døra sammen med dem.»</blockquote>
           <div class="quote-card-meta">
             <span class="quote-card-source" data-i18n="quotes.q5.source">Fra et innlegg på LinkedIn, om Styrerommet</span>
-            <a class="quote-card-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7496215262719864833/" target="_blank" rel="noopener" data-i18n="quotes.readLink">Les artikkelen →</a>
+            <a class="quote-card-link" href="https://www.linkedin.com/feed/update/urn:li:activity:7496215262719864833/" target="_blank" rel="noopener" ><svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg><span data-i18n="quotes.readLink">Les artikkelen →</span></a>
           </div>
         </div>
       </div>
@@ -479,11 +510,25 @@
     });
   });
 
+  // --- Impact card "Les mer" collapse (mobile only, via CSS) ---
+  document.querySelectorAll('.impact-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.impact-card');
+      var open = card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var label = btn.querySelector('[data-i18n]');
+      var key = open ? 'impact.showLess' : 'impact.readMore';
+      label.setAttribute('data-i18n', key);
+      var t = I18N[CUR_LANG];
+      if(t && t[key] !== undefined) label.textContent = t[key];
+    });
+  });
+
   // --- Language toggle (NO / EN) ---
   var CUR_LANG = 'no';
   var I18N = {
     no: {
-      'nav.impact':'Impact', 'nav.tilbud':'Hva jeg kan bistå med', 'nav.styrerommet':'De som styrer', 'nav.sitater':'Sitater', 'nav.om':'Om meg', 'nav.kontakt':'Kontakt', 'nav.cta':'Ta kontakt',
+      'nav.impact':'Impact', 'nav.tilbud':'Interim ledelse', 'nav.styrerommet':'De som styrer', 'nav.sitater':'Sitater', 'nav.om':'Om meg', 'nav.kontakt':'Kontakt', 'nav.cta':'Ta kontakt',
       'hero.eyebrow':'Interimleder og AI-produkteier for utvikling, implementering eller transformasjon — jobber i hele Norge.', 'hero.accent':'Fra operasjonelt til styrerommet.',
       'hero.sub':'Fra kildekoden til styrerommet. Kommersiell, strategisk, og hands-on med verktøyet selv.',
       'hero.lede':'Jeg bygger AI-produkter på dagtid og diskuterer AI-strategi med ledergrupper på kvelden. Samme uke, samme innsikt. Ingen powerpoint uten praksis bak.',
@@ -498,9 +543,10 @@
       'impact.c2.tag':'Offentlige anbud og EU-midler', 'impact.c2.p':'Norge har over 600 milliarder kroner i offentlige utlysninger, og EU forvalter over 2 milliarder kroner i relevante prosjektmidler. De fleste mindre selskaper vet ikke at det de allerede leverer kan være verdt langt mer i det markedet. Matchforger kobler bedrifter til utlysninger hos blant annet Doffin og TED, og hjelper de mindre selskapene med å finne partnere som gjør at de når bedre opp i konkurransen. Neste steg er å la selskaper finne hverandre direkte, ved å legge ut egne oppdrag og forespørsler.', 'impact.c2.line':'Henter data fra Nikola for økt troverdighet og relevans i hver søknad.',
       'impact.c3.tag':'AI-fundamentet for SMB', 'impact.c3.p':'SMB-er har lavest terskel for å ta i bruk KI-muskelen som finnes der ute — og det er nettopp den terskelen jeg har jobbet for å fjerne, slik at SMB-er kan bli med på reisen. Nikola er en lavterskel AI-plattform som følger bedriften din og bygger HMS, HR, markedsinnsikt, regnskap, kundeservice, ISO-sertifiseringer og svar på spørsmål om skatt og andre juridiske forhold. Vi har kommet så langt at vi nå tester en HR-modul som hjelper rekruttering i sanntids intervjuer, fordi vi allerede har erfaring med tale-til-tale-applikasjoner. Kobles rett på Tripletex og HR-systemene dine, eller bare slipp inn et Excel-ark. Markedet for en norsk AI-plattform for de mindre selskapene er enormt, og de fleste har ikke kommet i gang ennå.', 'impact.c3.line':'Nå under utvidelse med en HR-modul for sanntids rekrutteringsintervjuer.',
       'impact.c4.tag':'Hands-on, internasjonalt', 'impact.c4.h3':'AI-hackathon med team i India', 'impact.c4.p':'Gjennom Outskill sitt intensive AI-kurs bygget jeg, sammen med et internasjonalt team med utviklere i India, et AI-drevet research- og konkurrentanalyseverktøy: fra webhook-pipeline til skraping til AI-analyse. Levert på tid, midt på natten norsk tid.', 'impact.c4.line':'Praktisk bevis: jeg koder selv.',
-      'offer.eyebrow':'Slik jobber jeg',
+      'impact.readMore':'Les mer', 'impact.showLess':'Vis mindre',
+      'offer.eyebrow':'Kjernetilbudet',
       'offer.lede':'Du snakker sikkert allerede med de store konsulenthusene. <span class="accent">Jeg inviterer til noe mindre</span>: en kort samtale som faktisk beveger noe. Ingen lange forslag, ingen anbudsrunder.',
-      'offer.h2':'Og når noen må ta grep: interim ledelse',
+      'offer.h2':'Interim ledelse for AI-transformasjon',
       'offer.p1':'Ved siden av å bygge og videreutvikle Sofia, Matchforger og Nikola, bistår jeg selskaper med interim ledelse: rask styring når AI faktisk skal inn i organisasjonen og implementeres.',
       'offer.p2':'Jeg har selv programmert løsningene jeg snakker om. Det betyr at jeg kan gå fra strategisk samtale i styrerommet til konkret vurdering av hva som faktisk er mulig å bygge. Ingen tolk nødvendig mellom teknologi og forretning.',
       'offer.cta':'La oss snakke om det',
@@ -520,7 +566,7 @@
       'bio.eyebrow':'Hele meg, ikke bare AI', 'bio.front':'Klikk for mer →', 'bio.context':'For 18 måneder siden tvang jeg meg selv til å løse AI hands-on.', 'bio.link':'Fra et innlegg på LinkedIn →', 'bio.back':'← Tilbake',
     },
     en: {
-      'nav.impact':'Impact', 'nav.tilbud':'How I can help', 'nav.styrerommet':'Those who lead', 'nav.sitater':'Quotes', 'nav.om':'About me', 'nav.kontakt':'Contact', 'nav.cta':'Get in touch',
+      'nav.impact':'Impact', 'nav.tilbud':'Interim leadership', 'nav.styrerommet':'Those who lead', 'nav.sitater':'Quotes', 'nav.om':'About me', 'nav.kontakt':'Contact', 'nav.cta':'Get in touch',
       'hero.eyebrow':'Interim leader and AI product owner for development, implementation or transformation — working across Norway.', 'hero.accent':'From operational to the boardroom.',
       'hero.sub':'From the source code to the boardroom. Commercial, strategic, and hands-on with the tools myself.',
       'hero.lede':"I build AI products during the day and discuss AI strategy with leadership teams in the evening. Same week, same insight. No slide without practice behind it.",
@@ -535,9 +581,10 @@
       'impact.c2.tag':'Public tenders and EU funding', 'impact.c2.p':"Norway has over 600 billion NOK in public tenders, and the EU manages over 2 billion NOK in relevant project funding. Most smaller companies don't realize what they already deliver could be worth far more in that market. Matchforger connects companies to tenders through sources including Doffin and TED, and helps smaller companies find partners so they compete better for contracts. The next step is letting companies find each other directly, by posting their own jobs and requests.", 'impact.c2.line':'Pulls data from Nikola for more credibility and relevance in every application.',
       'impact.c3.tag':'The AI foundation for SMBs', 'impact.c3.p':"SMBs have the lowest entry point to the AI muscle that's out there — and that's exactly the barrier I've worked to remove, so SMBs can join the journey. Nikola is a low-threshold AI platform that follows your company and builds out safety compliance, HR, market insight, accounting, customer service, ISO certifications, and answers on tax and other legal matters. We've come far enough that we're now testing an HR module that supports recruiters during real-time interviews, because we already have experience with voice-to-voice applications. Connects directly to Tripletex and your HR systems, or just drop in an Excel sheet. The market for a Norwegian AI platform for smaller companies is enormous, and most haven't started yet.", 'impact.c3.line':'Now being expanded with an HR module for real-time recruitment interviews.',
       'impact.c4.tag':'Hands-on, international', 'impact.c4.h3':'AI hackathon with a team in India', 'impact.c4.p':"Through Outskill's intensive AI course, I built an AI-driven research and competitor-analysis tool together with an international team of developers in India: from webhook pipeline to scraping to AI analysis. Delivered on time, in the middle of the night Norwegian time.", 'impact.c4.line':'Practical proof: I code myself.',
-      'offer.eyebrow':'How I work',
+      'impact.readMore':'Read more', 'impact.showLess':'Show less',
+      'offer.eyebrow':'Core offering',
       'offer.lede':'You’re probably already talking to the big consulting houses. <span class="accent">I’m inviting you to something smaller</span>: a short conversation that actually moves something. No lengthy proposals, no tender rounds.',
-      'offer.h2':'And when someone needs to take charge: interim leadership',
+      'offer.h2':'Interim leadership for AI transformation',
       'offer.p1':'Alongside building and developing Sofia, Matchforger and Nikola, I help companies with interim leadership: fast, hands-on direction when AI actually needs to enter the organization and get implemented.',
       'offer.p2':"I've written the code for the solutions I talk about myself. That means I can go from a strategic conversation in the boardroom to a concrete assessment of what's actually possible to build. No interpreter needed between technology and business.",
       'offer.cta':"Let's talk about it",
@@ -996,3 +1043,6 @@
 <!-- ═══════════════════════════════════════════════════════════
      SOFIA WIDGET — SLUTT
 ══════════════════════════════════════════════════════════════ -->
+
+</body>
+</html>
