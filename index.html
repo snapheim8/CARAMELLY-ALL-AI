@@ -89,8 +89,13 @@
 
   /* ---------- Hero ---------- */
   .hero{position:relative; overflow:hidden; min-height:min(78vh,660px); display:flex; align-items:flex-end;}
-  .hero-media{position:absolute; inset:0;}
-  .hero-media img{width:100%; height:100%; object-fit:cover; object-position:60% 30%;}
+  .hero{background:#0A0C0B;}
+  .hero-media{position:absolute; inset:0; display:flex; justify-content:center;}
+  .hero-media img{width:100%; max-width:1200px; height:100%; object-fit:cover; object-position:60% 4%;}
+  @media (min-width:1201px){
+    .hero-media{justify-content:flex-end;}
+    .hero-media img{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 16%); mask-image:linear-gradient(to right,transparent 0%,#000 16%);}
+  }
   .hero-scrim{position:absolute; inset:0; background:linear-gradient(0deg, rgba(8,10,9,.96) 0%, rgba(8,10,9,.86) 34%, rgba(8,10,9,.55) 62%, rgba(8,10,9,.30) 82%, rgba(8,10,9,.20) 100%);}
   .hero-inner{position:relative; z-index:2; width:100%; padding:clamp(90px,15vw,150px) clamp(20px,5vw,56px) clamp(40px,6vw,60px); max-width:1040px; margin:0 auto; color:#FFFFFF; text-shadow:0 2px 16px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.7);}
   .hero .eyebrow{color:#FFFFFF; opacity:.92; margin-bottom:20px; display:block;}
