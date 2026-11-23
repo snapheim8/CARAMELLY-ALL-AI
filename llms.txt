@@ -1,0 +1,29 @@
+# Christian Herheim – All things AI
+
+> Christian Herheim er interimleder og AI-produkteier i Stavanger, og driver Caramelly AS. Han tilbyr interim ledelse for AI-transformasjon og rundbordssamtaler om AI («Styrerommet») for styrer og ledergrupper i hele Norge, fysisk eller digitalt. Han bygger selv AI-produktene Sofia, Nikola og Matchforger.
+
+## Bakgrunn
+
+- 24 år med kommersiell ledelse i Shell, offentlig sektor og egne selskaper.
+- Gasskontrakter i fire land og en portefølje på flere milliarder euro.
+- Batteriløsninger for arbitrasje og frekvensregulering.
+- Styringssystemer for risiko og etterlevelse fra Proactima. Startet med AI-governance før EUs AI Act eksisterte.
+- Snart 18 måneder med hands-on AI-utvikling som byggeren bak egne AI-produkter. Implementerer AI-sikkerhet, ansvarlighet og styring.
+
+## Tjenester
+
+- [Interim ledelse for AI-transformasjon](https://caramelly.no/#tilbud): rask, praktisk styring når AI skal inn i organisasjonen og implementeres. Christian har selv programmert løsningene han gir råd om.
+- [Styrerommet: rundbordssamtaler om AI](https://caramelly.no/#styrerommet): samtaler som tar AI inn i styrerom, ledergrupper og HR-miljøer. Kombinerer HR, rekruttering og organisasjonsutvikling med det kommersielle og teknologiske. Kan bestilles nå ved å ta kontakt.
+
+## AI-produkter
+
+- [Sofia](https://caramelly.no/#impact): AI-resepsjonist som svarer kunder med en gang, dag og natt. Del av Nikola-plattformen.
+- [Nikola](https://caramelly.no/#impact): lavterskel AI-plattform for små og mellomstore bedrifter. Bygger HMS, HR, markedsinnsikt, regnskap, kundeservice, ISO-sertifiseringer og svar på skatt og juridiske spørsmål. Kobles til Tripletex og HR-systemer. Tester en HR-modul for sanntids rekrutteringsintervjuer.
+- [Matchforger](https://caramelly.no/#impact): kobler bedrifter til offentlige utlysninger hos blant annet Doffin og TED, og hjelper mindre selskaper med å finne partnere.
+
+## Kontakt
+
+- E-post: christian@caramelly.no
+- Telefon: +47 932 04 368
+- Sted: Stavanger. Jobber i hele Norge, fysisk eller digitalt.
+- [Kontaktside](https://caramelly.no/#kontakt)

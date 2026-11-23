@@ -16,6 +16,11 @@ Dette notatet forklarer hvordan nettsiden caramelly.no er bygget og hvordan den 
 |---|---|
 | `index.html` | Hele forsiden: HTML, CSS og JavaScript i én fil, cirka 84 KB. |
 | `assets/` | Bildene på siden (se «Bilder»). |
+| `404.html` | Feilside som vises når en lenke ikke finnes. Har lenke tilbake til forsiden. |
+| `robots.txt` | Sier at alle søkemotorer og AI-assistenter kan lese siden, og hvor sitemap ligger. |
+| `sitemap.xml` | Liste over sidene for søkemotorer. Oppdater `lastmod` ved større endringer. |
+| `llms.txt` | Kort, faktabasert oppsummering for AI-assistenter (GEO). Må holdes i takt med siden. |
+| `_config.yml` | Hindrer at arbeidsnotatene (`.md`-filene og `Claude outputs/`) publiseres på caramelly.no. |
 | `styrerommet.html` | Liten side som videresender til `/#styrerommet`, så gamle lenker fortsatt virker. |
 | `CNAME` | Domenet `caramelly.no` for GitHub Pages. |
 | `README.md` | Kort beskrivelse av repoet med henvisning til dette notatet. |
@@ -104,6 +109,19 @@ Fonter fra Google Fonts: Newsreader (overskrifter, sitater), Archivo (brødtekst
 
 Sofia (både i `#kontakt` og den flytende boblen) sender meldinger til en n8n-webhook på `https://herheim.app.n8n.cloud/webhook/...`. Svarene lages av n8n, ikke av siden. Hvis Sofia ikke svarer, sjekk n8n-flyten først.
 
+## SEO og GEO
+
+SEO er synlighet i vanlige søkemotorer. GEO (generative engine optimisation) er synlighet i AI-assistenter som ChatGPT, Claude, Perplexity og Googles AI-svar. Dette er gjort:
+
+- **`<head>` i `index.html`:** tittel, beskrivelse, `canonical`, Open Graph og Twitter-kort (forhåndsvisning når lenken deles på LinkedIn og andre steder).
+- **Strukturerte data (JSON-LD):** en `<script type="application/ld+json">` i `<head>` som beskriver Christian (`Person`), Caramelly AS (`ProfessionalService`) med de to tjenestene, nettstedet og siden. Søkemotorer og AI-assistenter leser dette som fakta.
+- **`llms.txt`:** kort oppsummering av hvem Christian er, tjenester, produkter og kontakt.
+- **`robots.txt`:** tillater eksplisitt AI-søkeroboter.
+
+**Regel:** Når fakta på siden endres (tjenester, tall, kontaktinfo, titler), oppdater også JSON-LD i `<head>`, `llms.txt` og beskrivelsen i `<meta name="description">`. Ellers gir siden motstridende opplysninger til søkemotorer og AI.
+
+Kjent begrensning: siden har én adresse for både norsk og engelsk. Søkemotorene ser bare den norske teksten, fordi den engelske lastes med JavaScript.
+
 ## Fast arbeidsflyt for en endring
 
 1. Hent siste `index.html` fra GitHub (grenen `main`), ikke fra en gammel kopi.
@@ -116,7 +134,7 @@ Sofia (både i `#kontakt` og den flytende boblen) sender meldinger til en n8n-we
 ## Regler for innhold
 
 - Styrerommet er et tilbud nå, og bestilles ved å ta kontakt. Ikke kall det en serie som kommer senere.
-- Kristin Gabrielsen nevnes ikke i omtalen av Styrerommet. Christian og Kristin utvikler EdelT, en kandidatreise. EdelT er ikke omtalt på siden ennå; spør Christian før du legger det inn.
+- Ikke nevn samarbeidspartnere, kunder eller produkter i utvikling som ikke allerede står på siden, uten at Christian har godkjent det.
 - ONS er over. Ikke nevn det.
 - Bruk bare tall og fakta som står i `INNHOLD.md` eller som Christian har bekreftet.
 - Ingen konfidensielle avtaler, kundenavn eller interne produktdetaljer.

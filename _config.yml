@@ -1,0 +1,6 @@
+# GitHub Pages: disse filene er arbeidsnotater og skal ikke publiseres på caramelly.no.
+exclude:
+  - CLAUDE.md
+  - INNHOLD.md
+  - README.md
+  - "Claude outputs"

@@ -103,7 +103,6 @@ Utvalgte linjer fra det jeg har skrevet om AI, ledelse og det som faktisk skjer 
 
 ## Det siden ikke sier (bevisst)
 
-- Ingen omtale av Kristin Gabrielsen eller ONS. ONS er over.
-- EdelT, kandidatreisen Christian og Kristin utvikler, er ikke omtalt ennå.
+- Ingen omtale av samarbeidspartnere eller tidligere arrangementer.
 - Ingen kundenavn eller konfidensielle avtaler.
 - Ingen priser.
