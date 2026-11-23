@@ -7,13 +7,15 @@ Dette notatet forklarer hvordan nettsiden caramelly.no er bygget og hvordan den 
 - **Kilde:** GitHub-repoet `snapheim8/CARAMELLY-ALL-AI`, grenen `main`. På Christians PC ligger repoet i `C:\Users\chris\OneDrive\Dokumenter\GitHub\CARAMELLY_ALL AI`.
 - **Publisering:** GitHub Pages publiserer `main` automatisk til caramelly.no, vanligvis ett til to minutter etter en push. Filen `CNAME` kobler GitHub Pages til domenet. Ikke slett den.
 - **Den ekte versjonen er alltid `index.html` i repoet,** ikke en kopi i en chat, en artifact eller en arbeidsmappe. Hent alltid siste versjon fra repoet før du endrer noe, fordi Christian kan ha endret filen selv.
-- **Push:** Christian committer og pusher selv i GitHub Desktop. En Claude-økt kan skrive filen inn i mappen på PC-en når økten er koblet til PC-en.
+- **Endringer fra Claude:** Claude har skrivetilgang til repoet via GitHub-koblingen (en fin-kornet nøkkel som bare gjelder dette repoet). Claude kan derfor endre tekstfiler og pushe direkte, fra hvilken som helst enhet. Bilder må fortsatt legges inn fra PC-en.
+- **Endringer fra PC-en:** Christian bruker GitHub Desktop. Klikk alltid **Fetch origin** og **Pull** før du endrer noe lokalt, fordi Claude kan ha pushet endringer siden sist.
 
 ## Filer i repoet
 
 | Fil | Hva den er |
 |---|---|
-| `index.html` | Hele forsiden i én fil: HTML, CSS, JavaScript og bildene. Omtrent 470 KB, fordi bildene ligger inne i filen. |
+| `index.html` | Hele forsiden: HTML, CSS og JavaScript i én fil, cirka 84 KB. |
+| `assets/` | Bildene på siden (se «Bilder»). |
 | `styrerommet.html` | Liten side som videresender til `/#styrerommet`, så gamle lenker fortsatt virker. |
 | `CNAME` | Domenet `caramelly.no` for GitHub Pages. |
 | `README.md` | Kort beskrivelse av repoet med henvisning til dette notatet. |
@@ -57,13 +59,17 @@ Unntak: overskriftene «Sofia», «Matchforger» og «Nikola» på impact-korten
 
 ### Bilder
 
-Bildene ligger inne i HTML-en som `data:image/jpeg;base64,...`, altså bildefilen gjort om til tekst. Det gjør at siden er én fil uten avhengigheter, men linjene er svært lange (hero-bildet er cirka 310 000 tegn).
+Bildene ligger som vanlige filer i mappen `assets/` og lenkes fra `index.html` med relative stier, for eksempel `src="assets/christian-portrett.jpg"`.
 
-- Ikke skriv ut eller les disse linjene i sin helhet. Bruk søk med begrenset linjelengde, eller erstatt `data:`-innholdet med en plassholder før du leser filen.
-- Hero-bildet: gatebilde, 1400 × 1867 piksler, ansiktet ligger i øverste 30 prosent av bildet.
-- Portrettet (hånd mot ansiktet, svart bakgrunn, 600 × 600): ligger i `#tilbud` som `.offer-portrait`. En liten beskåret versjon (176 × 176) ligger som `.offer-bubble` ved knappen på mobil.
+| Fil | Størrelse | Brukes i |
+|---|---|---|
+| `assets/hero-christian-stavanger.jpg` | 1400 × 1867, 233 KB | Toppbildet (`.hero-media img`). Ansiktet ligger i øverste 30 prosent av bildet. |
+| `assets/christian-portrett.jpg` | 600 × 600, 55 KB | Kjernetilbudet (`.offer-portrait`), hånd mot ansiktet, svart bakgrunn. |
+| `assets/christian-portrett-liten.jpg` | 176 × 176, 5 KB | Den runde boblen ved knappen på mobil (`.offer-bubble`). |
 
-Anbefalt forbedring: flytt bildene til egne filer i en mappe `assets/`. Da blir `index.html` liten nok til å redigeres fra telefon og i GitHub sitt eget nettgrensesnitt, og endringene blir lettere å lese i historikken.
+Til og med november 2026 lå bildene inne i `index.html` som base64-tekst, og filen var 470 KB. De ble flyttet ut så filen kan redigeres via GitHub-koblingen og fra telefon. Ikke legg bilder tilbake som `data:`-tekst.
+
+GitHub-koblingen i Claude kan ikke laste opp bildefiler. Nye bilder må derfor legges i `assets/` fra PC-en (GitHub Desktop) eller lastes opp i GitHub sitt nettgrensesnitt.
 
 ### Design
 
@@ -100,12 +106,12 @@ Sofia (både i `#kontakt` og den flytende boblen) sender meldinger til en n8n-we
 
 ## Fast arbeidsflyt for en endring
 
-1. Hent siste `index.html` fra repoet.
+1. Hent siste `index.html` fra GitHub (grenen `main`), ikke fra en gammel kopi.
 2. Gjør endringen. Ved tekst: oppdater HTML, `I18N.no` og `I18N.en`.
 3. Sjekk siden i nettleser på mobilbredde (390 px), vanlig bredde (1366 px) og bred skjerm (1920 px eller mer).
-4. Valgfritt: publiser en kommenterbar kopi som Claude-artifact for gjennomgang. En artifact-kopi skal ikke ha `<!DOCTYPE>`, `<html>`, `<head>` eller `<body>`, og GoatCounter fjernes der. Repo-versjonen skal alltid ha dem.
-5. Skriv filen tilbake til repoet.
-6. Christian committer og pusher i GitHub Desktop. Siden er oppdatert etter ett til to minutter.
+4. Valgfritt: publiser en kommenterbar kopi som Claude-artifact for gjennomgang. Ta med bildene i `assets/` som egne filer i artifacten. En artifact-kopi skal ikke ha `<!DOCTYPE>`, `<html>`, `<head>` eller `<body>`, og GoatCounter fjernes der. Repo-versjonen skal alltid ha dem.
+5. Commit og push til `main`, enten via GitHub-koblingen i Claude eller fra GitHub Desktop på PC-en. Skriv en kort commit-melding som sier hva som er endret.
+6. Siden er oppdatert på caramelly.no etter ett til to minutter.
 
 ## Regler for innhold
 

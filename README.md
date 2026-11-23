@@ -6,8 +6,9 @@ Kildekoden til caramelly.no, Christian Herheims side om AI, interim ledelse og S
 
 | Fil | Hva den er |
 |---|---|
-| `index.html` | Hele forsiden i én fil, med norsk og engelsk tekst. |
+| `index.html` | Hele forsiden (HTML, CSS og JavaScript), med norsk og engelsk tekst. |
 | `styrerommet.html` | Videresender til Styrerommet-delen av forsiden. Beholdt så gamle lenker fortsatt virker. |
+| `assets/` | Bildene på siden. |
 | `CNAME` | Kobler GitHub Pages til domenet caramelly.no. Ikke slett den. |
 | `CLAUDE.md` | Teknisk notat: hvordan siden er bygget og hvordan den oppdateres. Les dette før du endrer noe. |
 | `INNHOLD.md` | Innholdsgrunnlag: teksten og faktaene som står på siden. |
