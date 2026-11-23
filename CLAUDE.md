@@ -7,14 +7,14 @@ Dette notatet forklarer hvordan nettsiden caramelly.no er bygget og hvordan den 
 - **Kilde:** GitHub-repoet `snapheim8/CARAMELLY-ALL-AI`, grenen `main`. På Christians PC ligger repoet i `C:\Users\chris\OneDrive\Dokumenter\GitHub\CARAMELLY_ALL AI`.
 - **Publisering:** GitHub Pages publiserer `main` automatisk til caramelly.no, vanligvis ett til to minutter etter en push. Filen `CNAME` kobler GitHub Pages til domenet. Ikke slett den.
 - **Den ekte versjonen er alltid `index.html` i repoet,** ikke en kopi i en chat, en artifact eller en arbeidsmappe. Hent alltid siste versjon fra repoet før du endrer noe, fordi Christian kan ha endret filen selv.
-- **Endringer fra Claude:** Claude har skrivetilgang til repoet via GitHub-koblingen (en fin-kornet nøkkel som bare gjelder dette repoet). Claude kan derfor endre tekstfiler og pushe direkte, fra hvilken som helst enhet. Bilder må fortsatt legges inn fra PC-en.
+- **Endringer fra Claude:** Claude har skrivetilgang til repoet via GitHub-koblingen (en fin-kornet nøkkel som bare gjelder dette repoet). Claude kan derfor endre små tekstfiler (for eksempel `llms.txt`, `robots.txt`, `sitemap.xml` og notatene) og pushe dem direkte, fra hvilken som helst enhet. `index.html` er for stor til koblingen, fordi koblingen krever at hele filen skrives ut på nytt. Den skrives derfor til PC-mappen, og Christian pusher. Bilder må også legges inn fra PC-en.
 - **Endringer fra PC-en:** Christian bruker GitHub Desktop. Klikk alltid **Fetch origin** og **Pull** før du endrer noe lokalt, fordi Claude kan ha pushet endringer siden sist.
 
 ## Filer i repoet
 
 | Fil | Hva den er |
 |---|---|
-| `index.html` | Hele forsiden: HTML, CSS og JavaScript i én fil, cirka 84 KB. |
+| `index.html` | Hele forsiden: HTML, CSS og JavaScript i én fil, cirka 90 KB. |
 | `assets/` | Bildene på siden (se «Bilder»). |
 | `404.html` | Feilside som vises når en lenke ikke finnes. Har lenke tilbake til forsiden. |
 | `robots.txt` | Sier at alle søkemotorer og AI-assistenter kan lese siden, og hvor sitemap ligger. |
@@ -72,7 +72,7 @@ Bildene ligger som vanlige filer i mappen `assets/` og lenkes fra `index.html` m
 | `assets/christian-portrett.jpg` | 600 × 600, 55 KB | Kjernetilbudet (`.offer-portrait`), hånd mot ansiktet, svart bakgrunn. |
 | `assets/christian-portrett-liten.jpg` | 176 × 176, 5 KB | Den runde boblen ved knappen på mobil (`.offer-bubble`). |
 
-Til og med november 2026 lå bildene inne i `index.html` som base64-tekst, og filen var 470 KB. De ble flyttet ut så filen kan redigeres via GitHub-koblingen og fra telefon. Ikke legg bilder tilbake som `data:`-tekst.
+Til og med november 2026 lå bildene inne i `index.html` som base64-tekst, og filen var 470 KB. De ble flyttet ut så filen blir liten og lett å jobbe med. Ikke legg bilder tilbake som `data:`-tekst.
 
 GitHub-koblingen i Claude kan ikke laste opp bildefiler. Nye bilder må derfor legges i `assets/` fra PC-en (GitHub Desktop) eller lastes opp i GitHub sitt nettgrensesnitt.
 
@@ -128,7 +128,7 @@ Kjent begrensning: siden har én adresse for både norsk og engelsk. Søkemotore
 2. Gjør endringen. Ved tekst: oppdater HTML, `I18N.no` og `I18N.en`.
 3. Sjekk siden i nettleser på mobilbredde (390 px), vanlig bredde (1366 px) og bred skjerm (1920 px eller mer).
 4. Valgfritt: publiser en kommenterbar kopi som Claude-artifact for gjennomgang. Ta med bildene i `assets/` som egne filer i artifacten. En artifact-kopi skal ikke ha `<!DOCTYPE>`, `<html>`, `<head>` eller `<body>`, og GoatCounter fjernes der. Repo-versjonen skal alltid ha dem.
-5. Commit og push til `main`, enten via GitHub-koblingen i Claude eller fra GitHub Desktop på PC-en. Skriv en kort commit-melding som sier hva som er endret.
+5. Commit og push til `main`. Små tekstfiler kan pushes med GitHub-koblingen i Claude. `index.html` og bilder skrives til PC-mappen, og Christian pusher fra GitHub Desktop. Skriv en kort commit-melding som sier hva som er endret.
 6. Siden er oppdatert på caramelly.no etter ett til to minutter.
 
 ## Regler for innhold
